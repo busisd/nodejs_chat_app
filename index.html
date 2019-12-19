@@ -3,7 +3,6 @@
 
 <head>
 	<title> Chat app </title>
-	<!-- <script type="text/javascript" src="" defer></script> -->
 	<link rel="stylesheet" type="text/css" href="chat_server.css">
 	
 	<script src="/socket.io/socket.io.js"></script>
@@ -11,40 +10,20 @@
 </head>
 
 <body>
-	<form id="chat_form" action="">
-		Name: <input id = "name_input" autocomplete="off" placeholder="Anonymous"> </input>
-		<br />
-		Message: <input id = "chat_input" autocomplete="off" placeholder="enter something"> </input>
-		<button id = "chat_button"> Chat </button>
-	</form>
-	<div id="message_container"> </div>
+	<div id="chat_content">
+		<form id="chat_form" action="">
+			Name: <input id = "name_input" autocomplete="off" placeholder="Anonymous"> </input>
+			<br />
+			Message: <input id = "chat_input" autocomplete="off" placeholder="Enter message"> </input>
+			<button id = "chat_button"> Chat </button>
+		</form>
+		<div id="message_container"> </div>
+	</div>
 	
 	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
 	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-
-	<!-- Load our React component. -->
 	<script src="MessageContainer.js"></script>
-	<script>
-		$(function () {
-			var socket = io();
-			
-			socket.on('message', function(data) {
-				message_container.addMessage(data);
-			});
-			
-			var name_input= $("#name_input");
-			var chat_input = $("#chat_input");
-			$('form').submit(function(e) {
-				e.preventDefault();
-				socket.emit('new chat', {"name": name_input.val(), "message": chat_input.val()});
-				chat_input.val("");
-				
-				return false;
-			});
-			
-		});
-	</script>
-
+	<script src="ChatServerMethods.js"></script>
 </body>
 
 

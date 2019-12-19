@@ -2,3 +2,50 @@
 	height: 24pt;
 	width: 24pt;
 }
+
+* { 
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	font: 13px Helvetica, Arial;
+	display: grid;
+	grid-template-columns: 25% 75%;
+	background-color: #eeddff;
+}
+
+#chat_content {
+	background-color: #ffffee;
+	height: 100%;
+}
+
+#chat_form {
+	height: 10%;
+}
+
+#message_container { 
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: 90%;
+	overflow-y: scroll;
+}
+#message_container li { 
+	padding: 5px 10px;
+}
+#message_container li:nth-child(odd) {
+	background: #eee;
+}
+
+.username {
+	font-weight: bold;
+}
+
+
+

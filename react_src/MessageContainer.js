@@ -1,6 +1,57 @@
-function BasicMessage(props) {
+function MessageEmote(props) {
 	return (
-		<li> {props.name}: {props.message} </li>
+		<img src={props.src} className="inline-image" />
+	);
+}
+
+const emotes = [
+	["GNOME", "gnome.png"],
+	["DOOT", "doot.jpg"],
+];
+function BasicMessage(props) {
+	let msg = props.message;
+	let msg_arr = [msg];
+	let img_key = 0;
+	
+	for (emote_row of emotes) {
+		let emote = emote_row[0];
+		let index = 0;
+		while(index < msg_arr.length) {
+			if (typeof msg_arr[index] !== "string") {
+				index += 1;
+				continue;
+			}
+			
+			let emote_loc = msg_arr[index].search(emote);
+			if (emote_loc === -1) {
+				index += 1;
+				continue;
+			} 
+
+			before_emote = msg_arr[index].substring(0, emote_loc);
+			after_emote = msg_arr[index].substring(emote_loc+emote.length, msg_arr[index].length);
+			new_emote = <MessageEmote src={emote_row[1]} key={img_key}/>;
+			msg_arr.splice(index, 1, before_emote, new_emote, after_emote);
+			
+			img_key++;
+		}
+	}
+		
+	let final_elements_arr = [];
+	for (item of msg_arr) {
+		if (typeof(item) === "string") {
+			if (item) {
+				final_elements_arr.push(item);
+			}
+		} else {
+			final_elements_arr.push(item);
+		}
+	}
+		
+	return (
+		<li> <span className="username"> {props.name}</span>: {msg_arr.map((msg_item) => {
+			return msg_item;
+		})} </li>
 	);
 }
 
