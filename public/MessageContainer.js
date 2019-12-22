@@ -6,6 +6,49 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var AlertMessage = function (_React$Component) {
+	_inherits(AlertMessage, _React$Component);
+
+	function AlertMessage(props) {
+		_classCallCheck(this, AlertMessage);
+
+		var _this = _possibleConstructorReturn(this, (AlertMessage.__proto__ || Object.getPrototypeOf(AlertMessage)).call(this, props));
+
+		_this.state = {
+			alert_msg: _this.props.alert_msg,
+			username: _this.props.username
+		};
+		return _this;
+	}
+
+	_createClass(AlertMessage, [{
+		key: "sendAlertMsg",
+		value: function sendAlertMsg(obj) {
+			alert(obj.state.alert_msg.slice(6));
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this2 = this;
+
+			return React.createElement(
+				"li",
+				{ onClick: function onClick() {
+						return _this2.sendAlertMsg(_this2);
+					} },
+				React.createElement(
+					"span",
+					{ className: "username" },
+					this.state.username
+				),
+				": Click to see message "
+			);
+		}
+	}]);
+
+	return AlertMessage;
+}(React.Component);
+
 function MessageEmote(props) {
 	return React.createElement("img", { src: props.src, className: "inline-image" });
 }
@@ -111,18 +154,18 @@ function BasicMessage(props) {
 	);
 }
 
-var MessageContainer = function (_React$Component) {
-	_inherits(MessageContainer, _React$Component);
+var MessageContainer = function (_React$Component2) {
+	_inherits(MessageContainer, _React$Component2);
 
 	function MessageContainer(props) {
 		_classCallCheck(this, MessageContainer);
 
-		var _this = _possibleConstructorReturn(this, (MessageContainer.__proto__ || Object.getPrototypeOf(MessageContainer)).call(this, props));
+		var _this3 = _possibleConstructorReturn(this, (MessageContainer.__proto__ || Object.getPrototypeOf(MessageContainer)).call(this, props));
 
-		_this.state = {
+		_this3.state = {
 			messages: []
 		};
-		return _this;
+		return _this3;
 	}
 
 	_createClass(MessageContainer, [{
@@ -131,6 +174,15 @@ var MessageContainer = function (_React$Component) {
 			return React.createElement(BasicMessage, {
 				name: msg.name ? msg.name : "Anonymous",
 				message: msg.message,
+				key: key
+			});
+		}
+	}, {
+		key: "renderAlertMessage",
+		value: function renderAlertMessage(msg, key) {
+			return React.createElement(AlertMessage, {
+				username: msg.name ? msg.name : "Anonymous",
+				alert_msg: msg.message,
 				key: key
 			});
 		}
@@ -144,13 +196,17 @@ var MessageContainer = function (_React$Component) {
 	}, {
 		key: "render",
 		value: function render() {
-			var _this2 = this;
+			var _this4 = this;
 
 			return React.createElement(
 				"ul",
 				null,
 				Object.entries(this.state.messages).map(function (msg) {
-					return _this2.renderMessage(msg[1], msg[0]);
+					if (msg[1].message.slice(0, 6) === "alert:") {
+						return _this4.renderAlertMessage(msg[1], msg[0]);
+					} else {
+						return _this4.renderMessage(msg[1], msg[0]);
+					}
 				})
 			);
 		}

@@ -1,3 +1,24 @@
+class AlertMessage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			alert_msg: this.props.alert_msg,
+			username: this.props.username
+		};
+	}
+	
+	sendAlertMsg(obj) {
+		alert(obj.state.alert_msg.slice(6));
+	}
+	
+	render() {
+		return (
+			<li onClick={() => this.sendAlertMsg(this)}><span className="username">{this.state.username}</span>: Click to see message </li>
+		);
+	}
+}
+
+
 function MessageEmote(props) {
 	return (
 		<img src={props.src} className="inline-image" />
@@ -73,6 +94,16 @@ class MessageContainer extends React.Component {
 		);
 	}
 	
+	renderAlertMessage(msg, key) {
+		return (
+			<AlertMessage
+				username={msg.name ? msg.name : "Anonymous"}
+				alert_msg={msg.message}
+				key={key}
+			/>
+		);
+	}
+	
 	addMessage(msg) {
 		var new_messages_state = this.state.messages.slice();
 		new_messages_state.push(msg);
@@ -84,7 +115,11 @@ class MessageContainer extends React.Component {
 			<ul>
 				{Object.entries(this.state.messages).map(
 					(msg) => {
-						return this.renderMessage(msg[1], msg[0]);
+						if (msg[1].message.slice(0,6) === "alert:"){
+							return this.renderAlertMessage(msg[1], msg[0]);
+						} else {
+							return this.renderMessage(msg[1], msg[0]);
+						}
 					})
 				}
 			</ul>

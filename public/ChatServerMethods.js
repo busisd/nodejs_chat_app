@@ -22,6 +22,5 @@ $(function () {
 var msg_container = $("#message_container");
 function setMsgContainerMaxHeight() {
 	msg_container.css({ 'maxHeight' : (window.innerHeight*.9).toString()+"px" });
-	console.log('ssss');
 }
 
