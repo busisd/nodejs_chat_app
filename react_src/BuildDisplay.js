@@ -36,7 +36,7 @@ class BuildDisplay extends React.Component {
 	}
 	
 	exportBuild() {
-		return this.state.slice();
+		return this.state;
 	}
 	
 	importBuild(new_build) {
@@ -55,7 +55,14 @@ class BuildDisplay extends React.Component {
 	
 	makeBlurHandler(stat_name) {
 		return (e) => {
-			console.log(stat_name);
+			input_val = parseInt(e.target.value);
+			if (isNaN(input_val)) input_val = 1;
+			if (input_val < 1) input_val = 1;
+			if (input_val > 99) input_val = 99;
+			
+			update_stat_dict = {};
+			update_stat_dict[stat_name] = input_val;
+			this.setState(update_stat_dict);
 		}
 	}
 	
@@ -77,9 +84,5 @@ class BuildDisplay extends React.Component {
 		);
 	}
 }
-
-
-
-
 
 var build_display = ReactDOM.render(<BuildDisplay />, document.getElementById("build_display"));

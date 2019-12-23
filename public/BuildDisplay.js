@@ -54,7 +54,7 @@ var BuildDisplay = function (_React$Component) {
 	_createClass(BuildDisplay, [{
 		key: "exportBuild",
 		value: function exportBuild() {
-			return this.state.slice();
+			return this.state;
 		}
 	}, {
 		key: "importBuild",
@@ -77,14 +77,23 @@ var BuildDisplay = function (_React$Component) {
 	}, {
 		key: "makeBlurHandler",
 		value: function makeBlurHandler(stat_name) {
+			var _this3 = this;
+
 			return function (e) {
-				console.log(stat_name);
+				input_val = parseInt(e.target.value);
+				if (isNaN(input_val)) input_val = 1;
+				if (input_val < 1) input_val = 1;
+				if (input_val > 99) input_val = 99;
+
+				update_stat_dict = {};
+				update_stat_dict[stat_name] = input_val;
+				_this3.setState(update_stat_dict);
 			};
 		}
 	}, {
 		key: "render",
 		value: function render() {
-			var _this3 = this;
+			var _this4 = this;
 
 			return React.createElement(
 				"p",
@@ -95,8 +104,8 @@ var BuildDisplay = function (_React$Component) {
 						key: entry[0],
 						stat: entry[0],
 						val: entry[1],
-						change_handler: _this3.makeChangeHandler(entry[0]),
-						blur_handler: _this3.makeBlurHandler(entry[0])
+						change_handler: _this4.makeChangeHandler(entry[0]),
+						blur_handler: _this4.makeBlurHandler(entry[0])
 					});
 				}),
 				" "

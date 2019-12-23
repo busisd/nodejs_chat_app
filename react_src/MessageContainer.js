@@ -3,7 +3,7 @@ class AlertMessage extends React.Component {
 		super(props);
 		this.state = {
 			alert_msg: this.props.alert_msg,
-			username: this.props.username
+			username: this.props.username,
 		};
 	}
 	
@@ -13,11 +13,39 @@ class AlertMessage extends React.Component {
 	
 	render() {
 		return (
-			<li onClick={() => this.sendAlertMsg(this)}><span className="username">{this.state.username}</span>: Click to see message </li>
+			<li onClick={() => this.sendAlertMsg(this)}>
+				<span className="username">
+					{this.state.username}
+				</span>: Click to see message 
+			</li>
 		);
 	}
 }
 
+class BuildMessage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			build_data: this.props.build_data,
+			username: this.props.username,
+		};
+	}
+	
+	sendStoredBuild() {
+		console.log(this.state.build_data);
+		build_display.importBuild(this.state.build_data);
+	}
+	
+	render() {
+		return (
+			<li onClick={() => this.sendStoredBuild(this)}>
+				<span className="username">
+					{this.state.username}
+				</span>: Click to import build 
+			</li>
+		);
+	}
+}
 
 function MessageEmote(props) {
 	return (
@@ -104,6 +132,16 @@ class MessageContainer extends React.Component {
 		);
 	}
 	
+	renderBuildMessage(msg, key) {
+		return (
+			<BuildMessage
+				username={msg.name ? msg.name : "Anonymous"}
+				build_data={msg.build_data}
+				key={key}
+			/>
+		);
+	}
+	
 	addMessage(msg) {
 		var new_messages_state = this.state.messages.slice();
 		new_messages_state.push(msg);
@@ -114,11 +152,13 @@ class MessageContainer extends React.Component {
 		return (
 			<ul>
 				{Object.entries(this.state.messages).map(
-					(msg) => {
-						if (msg[1].message.slice(0,6) === "alert:"){
-							return this.renderAlertMessage(msg[1], msg[0]);
+					(msg_row) => {
+						if (msg_row[1].message.slice(0,6) === "alert:") {
+							return this.renderAlertMessage(msg_row[1], msg_row[0]);
+						} else if (msg_row[1].message.slice(0,7) === "/export") {
+							return this.renderBuildMessage(msg_row[1], msg_row[0]);
 						} else {
-							return this.renderMessage(msg[1], msg[0]);
+							return this.renderMessage(msg_row[1], msg_row[0]);
 						}
 					})
 				}

@@ -41,12 +41,56 @@ var AlertMessage = function (_React$Component) {
 					{ className: "username" },
 					this.state.username
 				),
-				": Click to see message "
+				": Click to see message"
 			);
 		}
 	}]);
 
 	return AlertMessage;
+}(React.Component);
+
+var BuildMessage = function (_React$Component2) {
+	_inherits(BuildMessage, _React$Component2);
+
+	function BuildMessage(props) {
+		_classCallCheck(this, BuildMessage);
+
+		var _this3 = _possibleConstructorReturn(this, (BuildMessage.__proto__ || Object.getPrototypeOf(BuildMessage)).call(this, props));
+
+		_this3.state = {
+			build_data: _this3.props.build_data,
+			username: _this3.props.username
+		};
+		return _this3;
+	}
+
+	_createClass(BuildMessage, [{
+		key: "sendStoredBuild",
+		value: function sendStoredBuild() {
+			console.log(this.state.build_data);
+			build_display.importBuild(this.state.build_data);
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this4 = this;
+
+			return React.createElement(
+				"li",
+				{ onClick: function onClick() {
+						return _this4.sendStoredBuild(_this4);
+					} },
+				React.createElement(
+					"span",
+					{ className: "username" },
+					this.state.username
+				),
+				": Click to import build"
+			);
+		}
+	}]);
+
+	return BuildMessage;
 }(React.Component);
 
 function MessageEmote(props) {
@@ -154,18 +198,18 @@ function BasicMessage(props) {
 	);
 }
 
-var MessageContainer = function (_React$Component2) {
-	_inherits(MessageContainer, _React$Component2);
+var MessageContainer = function (_React$Component3) {
+	_inherits(MessageContainer, _React$Component3);
 
 	function MessageContainer(props) {
 		_classCallCheck(this, MessageContainer);
 
-		var _this3 = _possibleConstructorReturn(this, (MessageContainer.__proto__ || Object.getPrototypeOf(MessageContainer)).call(this, props));
+		var _this5 = _possibleConstructorReturn(this, (MessageContainer.__proto__ || Object.getPrototypeOf(MessageContainer)).call(this, props));
 
-		_this3.state = {
+		_this5.state = {
 			messages: []
 		};
-		return _this3;
+		return _this5;
 	}
 
 	_createClass(MessageContainer, [{
@@ -187,6 +231,15 @@ var MessageContainer = function (_React$Component2) {
 			});
 		}
 	}, {
+		key: "renderBuildMessage",
+		value: function renderBuildMessage(msg, key) {
+			return React.createElement(BuildMessage, {
+				username: msg.name ? msg.name : "Anonymous",
+				build_data: msg.build_data,
+				key: key
+			});
+		}
+	}, {
 		key: "addMessage",
 		value: function addMessage(msg) {
 			var new_messages_state = this.state.messages.slice();
@@ -196,16 +249,18 @@ var MessageContainer = function (_React$Component2) {
 	}, {
 		key: "render",
 		value: function render() {
-			var _this4 = this;
+			var _this6 = this;
 
 			return React.createElement(
 				"ul",
 				null,
-				Object.entries(this.state.messages).map(function (msg) {
-					if (msg[1].message.slice(0, 6) === "alert:") {
-						return _this4.renderAlertMessage(msg[1], msg[0]);
+				Object.entries(this.state.messages).map(function (msg_row) {
+					if (msg_row[1].message.slice(0, 6) === "alert:") {
+						return _this6.renderAlertMessage(msg_row[1], msg_row[0]);
+					} else if (msg_row[1].message.slice(0, 7) === "/export") {
+						return _this6.renderBuildMessage(msg_row[1], msg_row[0]);
 					} else {
-						return _this4.renderMessage(msg[1], msg[0]);
+						return _this6.renderMessage(msg_row[1], msg_row[0]);
 					}
 				})
 			);

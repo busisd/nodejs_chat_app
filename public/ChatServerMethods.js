@@ -9,7 +9,13 @@ $(function () {
 	var chat_input = $("#chat_input");
 	$('form').submit(function(e) {
 		e.preventDefault();
-		socket.emit('new chat', {"name": name_input.val(), "message": chat_input.val()});
+		
+		msg_info_dict = {"name": name_input.val(), "message": chat_input.val()}
+		if (chat_input.val().slice(0,7) === "/export") {
+			msg_info_dict["build_data"] = build_display.exportBuild();
+		}
+		
+		socket.emit('new chat', msg_info_dict);
 		chat_input.val("");
 		
 		return false;
