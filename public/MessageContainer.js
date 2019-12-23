@@ -33,15 +33,20 @@ var AlertMessage = function (_React$Component) {
 
 			return React.createElement(
 				"li",
-				{ onClick: function onClick() {
-						return _this2.sendAlertMsg(_this2);
-					} },
+				null,
 				React.createElement(
 					"span",
 					{ className: "username" },
 					this.state.username
 				),
-				": Click to see message"
+				": ",
+				React.createElement(
+					"span",
+					{ className: "clickable", onClick: function onClick() {
+							return _this2.sendAlertMsg(_this2);
+						} },
+					" Click to see message"
+				)
 			);
 		}
 	}]);
@@ -67,7 +72,6 @@ var BuildMessage = function (_React$Component2) {
 	_createClass(BuildMessage, [{
 		key: "sendStoredBuild",
 		value: function sendStoredBuild() {
-			console.log(this.state.build_data);
 			build_display.importBuild(this.state.build_data);
 		}
 	}, {
@@ -77,15 +81,20 @@ var BuildMessage = function (_React$Component2) {
 
 			return React.createElement(
 				"li",
-				{ onClick: function onClick() {
-						return _this4.sendStoredBuild(_this4);
-					} },
+				null,
 				React.createElement(
 					"span",
 					{ className: "username" },
 					this.state.username
 				),
-				": Click to import build"
+				": ",
+				React.createElement(
+					"span",
+					{ className: "clickable", onClick: function onClick() {
+							return _this4.sendStoredBuild(_this4);
+						} },
+					" Click to import build"
+				)
 			);
 		}
 	}]);

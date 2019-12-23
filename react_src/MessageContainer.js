@@ -13,10 +13,10 @@ class AlertMessage extends React.Component {
 	
 	render() {
 		return (
-			<li onClick={() => this.sendAlertMsg(this)}>
+			<li>
 				<span className="username">
 					{this.state.username}
-				</span>: Click to see message 
+				</span>: <span className="clickable" onClick={() => this.sendAlertMsg(this)}> Click to see message</span>
 			</li>
 		);
 	}
@@ -32,16 +32,15 @@ class BuildMessage extends React.Component {
 	}
 	
 	sendStoredBuild() {
-		console.log(this.state.build_data);
 		build_display.importBuild(this.state.build_data);
 	}
 	
 	render() {
 		return (
-			<li onClick={() => this.sendStoredBuild(this)}>
+			<li>
 				<span className="username">
 					{this.state.username}
-				</span>: Click to import build 
+				</span>: <span className="clickable" onClick={() => this.sendStoredBuild(this)}> Click to import build</span>
 			</li>
 		);
 	}
