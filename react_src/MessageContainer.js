@@ -84,7 +84,7 @@ function BasicMessage(props) {
 			img_key++;
 		}
 	}
-		
+	
 	let final_elements_arr = [];
 	for (item of msg_arr) {
 		if (typeof(item) === "string") {

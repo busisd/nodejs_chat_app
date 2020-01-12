@@ -14,6 +14,7 @@ function StatField(props) {
 		": ",
 		React.createElement("input", {
 			type: "number",
+			className: "stat_num",
 			min: 1,
 			max: 99,
 			step: 1,
@@ -29,6 +30,20 @@ function handleChange(e) {
 	console.log(e.target.value);
 }
 
+function DamageDisplay(props) {
+	return React.createElement(
+		"span",
+		null,
+		" Damage: ",
+		calc_damage(props.Str, props.Dex, props.Int),
+		" "
+	);
+}
+
+function calc_damage(Str, Dex, Int) {
+	return parseInt(Str) + parseInt(Dex) + parseInt(Int);
+}
+
 var BuildDisplay = function (_React$Component) {
 	_inherits(BuildDisplay, _React$Component);
 
@@ -38,15 +53,15 @@ var BuildDisplay = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (BuildDisplay.__proto__ || Object.getPrototypeOf(BuildDisplay)).call(this, props));
 
 		_this.state = {
-			Vig: 1,
-			Att: 1,
-			End: 1,
-			Vit: 1,
-			Str: 1,
-			Dex: 1,
-			Int: 1,
-			Fai: 1,
-			Luc: 1
+			Vig: 10,
+			Att: 10,
+			End: 10,
+			Vit: 10,
+			Str: 10,
+			Dex: 10,
+			Int: 10,
+			Fai: 10,
+			Luc: 10
 		};
 		return _this;
 	}
@@ -96,19 +111,24 @@ var BuildDisplay = function (_React$Component) {
 			var _this4 = this;
 
 			return React.createElement(
-				"p",
+				"div",
 				null,
-				" ",
-				Object.entries(this.state).map(function (entry) {
-					return React.createElement(StatField, {
-						key: entry[0],
-						stat: entry[0],
-						val: entry[1],
-						change_handler: _this4.makeChangeHandler(entry[0]),
-						blur_handler: _this4.makeBlurHandler(entry[0])
-					});
-				}),
-				" "
+				React.createElement(
+					"div",
+					{ id: "stat_list" },
+					" ",
+					Object.entries(this.state).map(function (entry) {
+						return React.createElement(StatField, {
+							key: entry[0],
+							stat: entry[0],
+							val: entry[1],
+							change_handler: _this4.makeChangeHandler(entry[0]),
+							blur_handler: _this4.makeBlurHandler(entry[0])
+						});
+					}),
+					" "
+				),
+				React.createElement(DamageDisplay, { Str: this.state.Str, Dex: this.state.Dex, Int: this.state.Int })
 			);
 		}
 	}]);

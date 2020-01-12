@@ -3,6 +3,7 @@ function StatField(props) {
 		<span>
 			{props.stat}: <input 
 				type="number" 
+				className="stat_num"
 				min={1} 
 				max={99} 
 				step={1} 
@@ -19,19 +20,29 @@ function handleChange(e) {
 	console.log(e.target.value);
 }
 
+function DamageDisplay(props) {
+	return (
+		<span> Damage: {calc_damage(props.Str, props.Dex, props.Int)} </span>
+	);
+}
+
+function calc_damage(Str,Dex,Int) {
+	return parseInt(Str)+parseInt(Dex)+parseInt(Int);
+}
+
 class BuildDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			Vig: 1,
-			Att: 1,
-			End: 1,
-			Vit: 1,
-			Str: 1,
-			Dex: 1,
-			Int: 1,
-			Fai: 1,
-			Luc: 1,
+			Vig: 10,
+			Att: 10,
+			End: 10,
+			Vit: 10,
+			Str: 10,
+			Dex: 10,
+			Int: 10,
+			Fai: 10,
+			Luc: 10,
 		}
 	}
 	
@@ -68,19 +79,22 @@ class BuildDisplay extends React.Component {
 	
 	render() {
 		return (
-			<p> {
-				Object.entries(this.state).map(
-					(entry) => {
-						return <StatField 
-							key={entry[0]}
-							stat={entry[0]} 
-							val={entry[1]} 
-							change_handler={this.makeChangeHandler(entry[0])} 
-							blur_handler={this.makeBlurHandler(entry[0])} 
-						/>
-					}
-				)
-			} </p>
+			<div>
+				<div id="stat_list"> {
+					Object.entries(this.state).map(
+						(entry) => {
+							return <StatField 
+								key={entry[0]}
+								stat={entry[0]} 
+								val={entry[1]} 
+								change_handler={this.makeChangeHandler(entry[0])} 
+								blur_handler={this.makeBlurHandler(entry[0])} 
+							/>
+						}
+					)
+				} </div>
+				<DamageDisplay Str={this.state.Str} Dex={this.state.Dex} Int={this.state.Int}/>
+			</div>
 		);
 	}
 }

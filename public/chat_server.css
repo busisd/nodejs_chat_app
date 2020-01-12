@@ -52,3 +52,16 @@ body {
     cursor: pointer;
 }
 
+#stat_list {
+	width: 72pt;
+	display: grid;
+	grid-template-columns: 100%;
+    font-family: monospace;
+    padding-left: 6pt;
+    padding-top: 6pt;
+}
+
+.stat_num {
+	width: 36pt;
+	float: right;
+}
